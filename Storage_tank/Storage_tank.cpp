@@ -15,7 +15,10 @@ void MassValue(int level)
 	int tankDiameter = 4; //meters
 
 	float contentValue = 3.14 * (tankDiameter) / 2 * (level / 1000);
-	float contantMass = contentValue * contentDensity;
+	float contentMass = contentValue * contentDensity;
+
+	std::cout << "\nValue of content is " << contentValue << std::endl;
+	std::cout << "Mass of content is " << contentMass << std::endl;
 }
 
 int main()
