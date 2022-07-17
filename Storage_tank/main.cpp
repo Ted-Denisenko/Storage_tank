@@ -2,5 +2,5 @@
 
 int main()
 {
-	ContentMass(ContentValue(LevelInput()));
+	ContentMass(ContentValue(LevelInput()));	
 }
