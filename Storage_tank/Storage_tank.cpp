@@ -1,37 +1,25 @@
 #include "Storage_tank.h"
 
-// Необходимо реализовать ввод через консоль уровня содержимого резервуара в мм.
 
-// TODO: брать аргумент из ком. строки
-int LevelInput(char* argv)
+double ContentValue(int contentLevel, int tankHeight, int tankDiameter)
 {
-	int iargv{ 0 };
-	int level{4000};
-	return level;
-}
-
-float ContentValue(int level)
-{
-	int tankDiameter = 4000; //milimeters
-	int tankHeight = 4000; //milimeters
-	float contentValue = 3.14 * (tankDiameter) / 2 * (float(level) / float(1000));
-	if (contentValue > tankHeight)
+	double tankValue = ((3.1415 * (tankDiameter / 2 * tankDiameter / 2) * tankHeight) / float(1000000000));
+	double contentValue = ((3.1415 * (tankDiameter / 2 * tankDiameter / 2) * contentLevel) / float(1000000000));
+	if (contentLevel > tankHeight)
 	{
-		std::cout << "TANK OVERFLOW!!!" << std::endl;
-		std::cout << "\nValue of content is " << tankHeight << ", lost due overflow: " << contentValue-(tankHeight/1000) << std::endl;
-		return tankHeight;
+		std::cout << tankHeight << std::endl;
+		return tankValue;
 	}
 	else
 	{
-		std::cout << "\nValue of content is " << contentValue << std::endl;
+		std::cout << contentValue << std::endl;
 		return contentValue; //m^3
 	}
 }
 
-float ContentMass(float contentValue)
+double ContentMass(double contentValue, int contentDensity)
 {
-	int contentDensity = 1040; //kg/m^3
-	float contentMass = contentValue * contentDensity / 1000;
-	std::cout << "Mass of content is " << contentMass << std::endl;
+	double contentMass = contentValue * (float)contentDensity / (float)1000;
+	std::cout << contentMass << std::endl;
 	return contentMass; //tons
 }

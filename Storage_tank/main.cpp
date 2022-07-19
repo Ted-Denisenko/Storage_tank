@@ -15,18 +15,18 @@ int main(int argc, const char* argv[])
             ("level,lvl", value<int>()->default_value(600), "Content level")
             ("density, dens", value<int>()->default_value(1040), "Content density");
 
-        variables_map vm;
+        variables_map vm; // в мапе всегда будет столько пар название-значение, сколько значений по умолчанию выставлено
         store(parse_command_line(argc, argv, desc), vm);
 
         if (vm.count("help"))
             std::cout << desc << '\n';
-        else if(!vm.count(""))
+        else
         {
-            std::cout << "Magic is happening" << std::endl;
+            ContentMass(
+                        ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>())
+                        , vm.at("density").as<int>());
         }
         
-        //ContentMass(ContentValue(LevelInput(vm["level"].as<int>())));
-
     }
     catch (const error& ex)
     {
