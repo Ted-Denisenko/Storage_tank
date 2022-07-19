@@ -1,8 +1,6 @@
 #pragma once
 #include <iostream>
 
-int LevelInput();
+double ContentValue(int level, int tankHeight, int tankDiameter);
 
-float ContentValue(int level);
-
-float ContentMass(float contentValue);
+double ContentMass(double contentValue, int contentDensity);
