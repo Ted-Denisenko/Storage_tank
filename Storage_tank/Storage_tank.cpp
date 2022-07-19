@@ -7,12 +7,10 @@ double ContentValue(int contentLevel, int tankHeight, int tankDiameter)
 	double contentValue = ((3.1415 * (tankDiameter / 2 * tankDiameter / 2) * contentLevel) / float(1000000000));
 	if (contentLevel > tankHeight)
 	{
-		std::cout << tankHeight << std::endl;
 		return tankValue;
 	}
 	else
 	{
-		std::cout << contentValue << std::endl;
 		return contentValue; //m^3
 	}
 }
@@ -20,6 +18,15 @@ double ContentValue(int contentLevel, int tankHeight, int tankDiameter)
 double ContentMass(double contentValue, int contentDensity)
 {
 	double contentMass = contentValue * (float)contentDensity / (float)1000;
-	std::cout << contentMass << std::endl;
 	return contentMass; //tons
+}
+
+void printValue(double contentValue)
+{
+	std::cout << "Content value is " << contentValue << " m^3" << std::endl;
+}
+
+void printMass(double contentMass)
+{
+	std::cout << "Content mass is " << contentMass << " tons" << std::endl;
 }
