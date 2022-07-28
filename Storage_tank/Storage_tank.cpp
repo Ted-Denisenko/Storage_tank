@@ -1,35 +1,21 @@
 #include "Storage_tank.h"
-
-#include <boost/units/systems/si/length.hpp>
-#include <boost/units/systems/si/mass.hpp>
-#include <boost/units/systems/si/base.hpp>
-#include <boost/units/systems/si/mass_density.hpp>
 #include <boost/units/systems/si/io.hpp>
-#include <boost/units/base_units/si/kilogram.hpp>
-#include <boost/units/static_constant.hpp>
-#include <boost/units/systems/si/prefixes.hpp>
-#include <boost/units/unit.hpp>
-#include <boost/units/scale.hpp>
-#include <boost/units/scaled_base_unit.hpp>
 
+using namespace boost::units;
+using namespace boost::units::si;
 
+using Volume = quantity<volume>;
 
-
-using ton_base_unit = scaled_base_unit<boost::units::si::kilogram_base_unit, scale<10, static_rational<3> > >;
-
-using Volume = boost::units::quantity<boost::units::si::volume>;
-
-Volume ContentValue(int contentLevel, int tankHeight, int tankDiameter)
+Volume ContentValue(int contentLevel_raw, int tankHeight_raw, int tankDiameter_raw)
 {	
-	using boost::units::si::kilogrammes_per_cubic_metre;
+	quantity<length> contentLevel(contentLevel_raw * meters);
+	quantity<length> tankHeight(tankHeight_raw * meters);
+	quantity<length> tankDiameter(tankDiameter_raw * meters);
 
-	double tankValue_raw = ((3.1415 * (tankDiameter / 2 * tankDiameter / 2) * tankHeight) / float(1000000000));
-	double contentValue_raw = ((3.1415 * (tankDiameter / 2 * tankDiameter / 2) * contentLevel) / float(1000000000));
+	Volume tankVolume(3.1415 * (tankDiameter * tankDiameter / 4.0) * tankHeight);
+	Volume contentVolume(3.1415 * (tankDiameter * tankDiameter / 4.0) * contentLevel);
 
-	Volume tankVolume(tankValue_raw * boost::units::si::cubic_meter);
-	Volume contentVolume(contentValue_raw * boost::units::si::cubic_meter);
-
-	if (contentLevel > tankHeight)
+	if (contentLevel_raw > tankHeight_raw)
 	{
 		return tankVolume;
 	}
@@ -39,21 +25,33 @@ Volume ContentValue(int contentLevel, int tankHeight, int tankDiameter)
 	}
 }
 
-Mass ContentMass(double contentValue_raw, double contentDensity_raw)
+namespace outernamespace
 {
-	/*
-	typedef void(*func_pointer)(int);
-	vs
-	using func_pointer = void(*)(int);
-	*/
+	namespace ton_system
+	{
+		using ton_base_unit = scaled_base_unit<kilogram_base_unit, scale<10, static_rational<3> > >;
+		typedef make_system<ton_base_unit>::type system;
+		typedef unit<mass_dimension, system> mass;
+		BOOST_UNITS_STATIC_CONSTANT(ton, mass);
+		BOOST_UNITS_STATIC_CONSTANT(tons, mass);
+	}
+	using quantity_ton = quantity<ton_system::mass>;
 
-	using MassDensity = boost::units::quantity<boost::units::si::mass_density>;;
+	using ton_system::ton;
+	using ton_system::tons;
+}
 
-	const MassDensity mass_density(contentDensity_raw * boost::units::si::kilogrammes_per_cubic_metre);
-	const Volume volume(contentValue_raw * boost::units::si::cubic_meter);
-	const Mass contentMass(volume * mass_density);
+Mass ContentMass(Volume contentVolume, double contentDensity_raw)
+{
+	using namespace outernamespace;
+	using MassDensity = quantity<mass_density>;
+	using Mass = quantity<mass>;
+	using Volume = quantity<volume>;
+			
+	const MassDensity massDensity(contentDensity_raw * ton / (metre * metre * metre));
+	const Mass contentMass(contentVolume * massDensity);
 
-	return (contentMass/1000); //tons
+	return contentMass; //tons
 }
 
 void printValue(double contentValue)

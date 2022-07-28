@@ -7,9 +7,9 @@ using Volume = boost::units::quantity<boost::units::si::volume>;
 using Mass = boost::units::quantity<boost::units::si::mass>;
 
 
-Volume ContentValue(int level, int tankHeight, int tankDiameter);
+Volume ContentValue(int contentLevel_raw, int tankHeight_raw, int tankDiameter_raw);
 
-Mass ContentMass(double contentValue_raw, double contentDensity_raw);
+Mass ContentMass(Volume contentVolume, double contentDensity_raw);
 
 void printValue(double contentValue);
 

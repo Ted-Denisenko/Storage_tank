@@ -1,16 +1,6 @@
 #include "Storage_tank.h"
 #include <boost/program_options.hpp>
 
-#include <boost/units/units_fwd.hpp>
-
-#include <boost/units/base_dimension.hpp>
-#include <boost/units/base_unit.hpp>
-#include <boost/units/derived_dimension.hpp>
-#include <boost/units/make_system.hpp>
-#include <boost/units/io.hpp>
-#include <boost/units/static_constant.hpp>
-#include <boost/units/unit.hpp>
-
 using namespace boost::program_options;
 
 int main(int argc, const char* argv[])
@@ -35,10 +25,6 @@ int main(int argc, const char* argv[])
             ContentMass(
                         ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>())
                         , vm.at("density").as<int>());
-            //printMass(ContentMass(
-            //    ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>())
-            //    , vm.at("density").as<int>()));
-            //printValue(ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>()));
         }
         
     }
