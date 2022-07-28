@@ -25,10 +25,6 @@ int main(int argc, const char* argv[])
             ContentMass(
                         ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>())
                         , vm.at("density").as<int>());
-            //printMass(ContentMass(
-            //    ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>())
-            //    , vm.at("density").as<int>()));
-            //printValue(ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>()));
         }
         
     }
