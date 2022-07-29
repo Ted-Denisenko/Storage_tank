@@ -1,14 +1,10 @@
 #include "Storage_tank.h"
-#include <boost/units/systems/si/io.hpp>
-#include <boost/units/systems/si/prefixes.hpp>
 
 using namespace boost::units;
 using namespace boost::units::si;
 
-using Volume = quantity<volume>;
-
 Volume ContentValue(int contentLevel_raw, int tankHeight_raw, int tankDiameter_raw)
-{	
+{		
 	quantity<length> contentLevel(contentLevel_raw * milli * meters);
 	quantity<length> tankHeight(tankHeight_raw * milli * meters);
 	quantity<length> tankDiameter(tankDiameter_raw * milli * meters);
