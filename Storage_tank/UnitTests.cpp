@@ -1,8 +1,6 @@
 #include "Storage_tank.h"
 #define BOOST_TEST_MODULE Storage_tank.UNIT_TESTS
 #include <boost/test/unit_test.hpp>
-#include <boost/units/systems/si/io.hpp>
-namespace utf = boost::unit_test;
 
 using namespace boost::units;
 using namespace boost::units::si;
