@@ -23,7 +23,7 @@ int main(int argc, const char* argv[])
         else
         {
             ContentMass(
-                        ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>()).value()
+                        ContentValue(vm.at("level").as<int>(), vm.at("height").as<int>(), vm.at("diameter").as<int>())
                         , vm.at("density").as<double>());
         }
         

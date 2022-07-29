@@ -6,8 +6,6 @@ namespace utf = boost::unit_test;
 
 using namespace boost::units;
 using namespace boost::units::si;
-
-using Volume = quantity<volume>;
 	
 
 BOOST_AUTO_TEST_CASE(test_ContentValue_1000)
