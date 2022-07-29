@@ -4,18 +4,13 @@ using namespace boost::units;
 using namespace boost::units::si;
 
 Volume ContentValue(int contentLevel_raw, int tankHeight_raw, int tankDiameter_raw)
-{		
+{	
 	quantity<length> contentLevel(contentLevel_raw * milli * meters);
 	quantity<length> tankHeight(tankHeight_raw * milli * meters);
 	quantity<length> tankDiameter(tankDiameter_raw * milli * meters);
 
-	Volume tankVolume(3.1415 * (tankDiameter * tankDiameter / 4.0) * tankHeight);
+	Volume tankVolume(3.1415 * (tankDiameter * tankDiameter / 4.0) * tankHeight );
 	Volume contentVolume(3.1415 * (tankDiameter * tankDiameter / 4.0) * contentLevel);
-
-	// нужно перевести из мм3 в м3
-	//double tmp = tankVolume_mm.value();
-	//Volume tankVolume(tmp * milli * meter);
-	//Volume contentVolume((contentVolume_mm.value()) * milli * meters);
 
 	if (contentLevel_raw > tankHeight_raw)
 	{

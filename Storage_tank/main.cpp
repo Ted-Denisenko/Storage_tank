@@ -5,7 +5,6 @@ using namespace boost::program_options;
 
 int main(int argc, const char* argv[])
 {
-    
     options_description desc{ "Options" };
     desc.add_options()
         ("help,h", "Help screen")
@@ -26,7 +25,6 @@ int main(int argc, const char* argv[])
                         ContentValue(vm["level"].as<int>(), vm["height"].as<int>(), vm["diameter"].as<int>())
                         , vm.at("density").as<double>());
         }
-        
     }
     catch (const error& ex)
     {
