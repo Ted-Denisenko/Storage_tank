@@ -1,5 +1,6 @@
 #include "Storage_tank.h"
 #include <boost/units/systems/si/io.hpp>
+#include <boost/units/systems/si/prefixes.hpp>
 
 using namespace boost::units;
 using namespace boost::units::si;
@@ -8,16 +9,21 @@ using Volume = quantity<volume>;
 
 Volume ContentValue(int contentLevel_raw, int tankHeight_raw, int tankDiameter_raw)
 {	
-	quantity<length> contentLevel(contentLevel_raw * meters);
-	quantity<length> tankHeight(tankHeight_raw * meters);
-	quantity<length> tankDiameter(tankDiameter_raw * meters);
+	quantity<length> contentLevel(contentLevel_raw * milli * meters);
+	quantity<length> tankHeight(tankHeight_raw * milli * meters);
+	quantity<length> tankDiameter(tankDiameter_raw * milli * meters);
 
 	Volume tankVolume(3.1415 * (tankDiameter * tankDiameter / 4.0) * tankHeight);
 	Volume contentVolume(3.1415 * (tankDiameter * tankDiameter / 4.0) * contentLevel);
 
+	// нужно перевести из мм3 в м3
+	//double tmp = tankVolume_mm.value();
+	//Volume tankVolume(tmp * milli * meter);
+	//Volume contentVolume((contentVolume_mm.value()) * milli * meters);
+
 	if (contentLevel_raw > tankHeight_raw)
 	{
-		return tankVolume;
+		return (tankVolume);
 	}
 	else
 	{
@@ -29,7 +35,7 @@ namespace outernamespace
 {
 	namespace ton_system
 	{
-		using ton_base_unit = scaled_base_unit<kilogram_base_unit, scale<10, static_rational<3> > >;
+		using ton_base_unit = scaled_base_unit<kilogram_base_unit, scale<10, static_rational<-3> > >;
 		typedef make_system<ton_base_unit>::type system;
 		typedef unit<mass_dimension, system> mass;
 		BOOST_UNITS_STATIC_CONSTANT(ton, mass);
