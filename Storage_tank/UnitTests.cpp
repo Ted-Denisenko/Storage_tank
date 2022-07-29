@@ -2,51 +2,40 @@
 #define BOOST_TEST_MODULE Storage_tank.UNIT_TESTS
 #include <boost/test/unit_test.hpp>
 #include <boost/units/systems/si/io.hpp>
-#include <boost/units/systems/si/mass.hpp>
-#include <boost/units/systems/si/base.hpp>
-#include <boost/units/systems/si/mass_density.hpp>
-#include <boost/units/base_units/si/kilogram.hpp>
 namespace utf = boost::unit_test;
 
-using Volume = boost::units::quantity<boost::units::si::volume>;
+using namespace boost::units;
+using namespace boost::units::si;
+
+using Volume = quantity<volume>;
 	
 
-//BOOST_AUTO_TEST_CASE(test_ContentValue_1000)
-//{
-//	BOOST_CHECK_CLOSE(ContentValue(1000), 6.28000021, 0000001);
-//}
-//
-//BOOST_AUTO_TEST_CASE(test_ContentValue_1)
-//{
-//	BOOST_CHECK_CLOSE(ContentValue(1), 0.00628000032, 0000001);
-//}
+BOOST_AUTO_TEST_CASE(test_ContentValue_1000)
+{
+	float expected = 785375.0;
+	float differ = 0.01;
+	BOOST_CHECK_CLOSE(ContentValue(1000, 1000, 1000).value(), expected, differ);
+}
 
-//BOOST_AUTO_TEST_CASE(test_ContentMass_1000)
-//{
-//	BOOST_CHECK_CLOSE(ContentMass(ContentValue(1000)), 6531.20020, 0000001);
-//}
+BOOST_AUTO_TEST_CASE(test_ContentValue_1)
+{
+	float expected = 0.785375;
+	float differ = 0.01;
+	BOOST_CHECK_CLOSE(ContentValue(1, 1, 1).value(), expected, differ);
+}
 
-	namespace outernamespace
-	{
-		namespace ton_system
-		{
-			using ton_base_unit = boost::units::scaled_base_unit<boost::units::si::kilogram_base_unit, boost::units::scale<10, boost::units::static_rational<3> > >;
-			typedef boost::units::make_system<ton_base_unit>::type system;
-			typedef boost::units::unit<boost::units::mass_dimension, boost::units::si::system> mass;
-			BOOST_UNITS_STATIC_CONSTANT(ton, mass);
-			BOOST_UNITS_STATIC_CONSTANT(tons, mass);
-		}
-		using quantity_ton = boost::units::quantity<ton_system::mass>;
-
-		using ton_system::ton;
-		using ton_system::tons;
-	}
+BOOST_AUTO_TEST_CASE(test_ContentMass_1000)
+{
+	Volume check(1000.0 * cubic_meter);
+	float expected = 1040;
+	float differ = 0.01;
+	BOOST_CHECK_CLOSE(float(ContentMass(check, 1040.0).value()), expected, differ);
+}
 
 	BOOST_AUTO_TEST_CASE(test_ContentMass_1)
 	{
-		//using outernamespace;
-		Volume check(50.0 * boost::units::si::cubic_meter);
-		Mass expected(52.0 * boost::units::si::kilogram);
-		Mass differ(0.1 * boost::units::si::kilogram);
-	//	BOOST_CHECK_CLOSE(ContentMass(check, 1040.0), expected, differ);
+		Volume check(1.0 * cubic_meter);
+		float expected = 1.04;
+		float differ = 0.01;
+		BOOST_CHECK_CLOSE(float(ContentMass(check, 1040.0).value()), expected, differ);
 	}
