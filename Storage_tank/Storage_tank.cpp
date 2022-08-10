@@ -3,22 +3,22 @@
 using namespace boost::units;
 using namespace boost::units::si;
 
-namespace extended_area_names {
-	namespace squared_millimeters_system 
-	{
-		// "area" is not a base unit
-		typedef make_scaled_unit<area, scale<10, static_rational<-6>>>::type millimeter_unit;	
-		typedef make_system<millimeter_unit>::type system;
-		typedef unit<area_dimension, system> area;
-			
-		BOOST_UNITS_STATIC_CONSTANT(squared_millimeter, area);
-		BOOST_UNITS_STATIC_CONSTANT(squared_millimeters, area);
-	} // namespace squared_millimeters_system
-
-	typedef quantity<squared_millimeters_system::area> quantity_area_square_millimeter;
-	using squared_millimeters_system::squared_millimeter;
-	using squared_millimeters_system::squared_millimeters;
-} // namespace extended_area_names
+//namespace extended_area_names {
+//	namespace squared_millimeters_system 
+//	{
+//		// "area" is not a base unit
+//		typedef make_scaled_unit<area, scale<10, static_rational<-6>>>::type millimeter_unit;	
+//		typedef make_system<millimeter_unit>::type system;
+//		typedef unit<area_dimension, system> area;
+//			
+//		BOOST_UNITS_STATIC_CONSTANT(squared_millimeter, area);
+//		BOOST_UNITS_STATIC_CONSTANT(squared_millimeters, area);
+//	} // namespace squared_millimeters_system
+//
+//	typedef quantity<squared_millimeters_system::area> quantity_area_square_millimeter;
+//	using squared_millimeters_system::squared_millimeter;
+//	using squared_millimeters_system::squared_millimeters;
+//} // namespace extended_area_names
 
 typedef make_scaled_unit<area, scale<10, static_rational<-6>>>::type millimeter_unit;
 
@@ -51,7 +51,7 @@ Volume ContentVolume(std::string tankType, double contentLevel_raw, double tankH
 				> sectorAngle(2 * acos((tankRadius - tankHeight) / tankRadius)
 				* degree::degree);
 
-			auto sectorSquare(
+			quantity<millimeter_unit> sectorSquare(
 				(sectorAngle.value() * (tankRadius.value() * tankRadius.value()) / 2.0)
 				* square_meter);
 
