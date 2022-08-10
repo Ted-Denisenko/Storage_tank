@@ -3,80 +3,33 @@
 using namespace boost::units;
 using namespace boost::units::si;
 
-namespace outernamespace {
-	namespace squared_millimeters_system {
-		typedef boost::units::scaled_base_unit<boost::units::si::area, boost::units::scale<10, boost::units::static_rational<-6>>> millimeter_base_unit;
+namespace extended_area_names {
+	namespace squared_millimeters_system 
+	{
+		// "area" is not a base unit
+		typedef make_scaled_unit<area, scale<10, static_rational<-6>>>::type millimeter_unit;	
+		typedef make_system<millimeter_unit>::type system;
+		typedef unit<area_dimension, system> area;
+			
+		BOOST_UNITS_STATIC_CONSTANT(squared_millimeter, area);
+		BOOST_UNITS_STATIC_CONSTANT(squared_millimeters, area);
+	} // namespace squared_millimeters_system
 
-		typedef boost::units::make_system<millimeter_base_unit>::type system;
-		typedef boost::units::unit<boost::units::length_dimension, system> length;
-
-		BOOST_UNITS_STATIC_CONSTANT(squared_millimeter, length);
-		BOOST_UNITS_STATIC_CONSTANT(squared_millimeters, length);
-	}
-
-	typedef boost::units::quantity<squared_millimeters_system::length> quantity_millimeter;
+	typedef quantity<squared_millimeters_system::area> quantity_area_square_millimeter;
 	using squared_millimeters_system::squared_millimeter;
 	using squared_millimeters_system::squared_millimeters;
-}
+} // namespace extended_area_names
 
-typedef make_scaled_unit<si::area, scale<10, static_rational<-6> > >::type squared_millimeters;
+typedef make_scaled_unit<area, scale<10, static_rational<-6>>>::type millimeter_unit;
 
-Volume ContentValue(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
-{	
+Volume ContentVolume(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
+{
 	quantity<length> contentLevel(contentLevel_raw * milli * meters);
 	quantity<length> tankHeight(tankHeight_raw * milli * meters);
 	quantity<length> tankDiameter(tankDiameter_raw * milli * meters);
-	Volume tankVolume;
+	quantity<length> tankRadius = tankDiameter / 2.0;
+	Volume tankVolume(3.1415 * (tankRadius * tankRadius) * tankHeight);
 	Volume contentVolume;
-
-	if (tankType == "v")
-	{
-
-		tankVolume = (3.1415 * (tankDiameter * tankDiameter / 4.0) * tankHeight);
-		contentVolume = (3.1415 * (tankDiameter * tankDiameter / 4.0) * contentLevel);
-	}
-	else if(tankType == "h")
-	{	
-		quantity<length> tankRadius = tankDiameter / 2.0;
-
-		boost::units::quantity<
-		boost::units::unit<
-		boost::units::plane_angle_dimension,
-		boost::units::degree::system
-		>
-		> sectorAngle(2 * acos((tankRadius - tankHeight) / tankRadius) * boost::units::degree::degree);
-
-
-		boost::units::quantity<si::area> sectorSquare = ((sectorAngle.value() * (tankRadius.value() * tankRadius.value()) / 2.0)
-			/** milli * milli*/ * square_meter);
-		sectorSquare.from_value(sectorSquare.value() / 1000000);
-
-		quantity<length> triangleBase(sqrt(
-			(tankRadius.value() * tankRadius.value()) - 
-			((tankRadius.value() - tankHeight.value()) * 
-			(tankRadius.value() - tankHeight.value()))) * milli * meters);
-
-		quantity<length> p((tankRadius + tankRadius + triangleBase) / 2.0);
-		boost::units::quantity<squared_millimeters> triangleSquare = (sqrt
-			(p.value() * 
-			(p.value() - tankRadius.value()) * 
-			(p.value() - tankRadius.value()) * 
-			(p.value() - triangleBase.value()))
-			* square_meters);
-		contentVolume = (sectorSquare - triangleSquare) * tankHeight;
-		// alpha = 2*acos((tankRadius-tankHeight)/tankRadius)
-		// sector square = (alpha*(radius * radius)/2
-		// triangle base = sqrt((radius * radius) - ((radius - tankHeight)*(radius - tankHeight)))
-		// p = (radius+radius+base)/2
-		// triangle square = sqrt(p * (p - radius) * (p - radius) * (p - base))
-		// contentVolume = (sector_square - triangle_square) * tankHeight
-		tankVolume = (3.1415 * (tankDiameter * tankDiameter / 4.0) * tankHeight);
-		contentVolume = (3.1415 * (tankDiameter * tankDiameter / 4.0) * contentLevel);
-	}
-	//else
-	//{
-	//	todo: исключение о несоответсвии 
-	//}
 
 	if (contentLevel_raw > tankHeight_raw)
 	{
@@ -84,11 +37,69 @@ Volume ContentValue(std::string tankType, double contentLevel_raw, double tankHe
 	}
 	else
 	{
-		return contentVolume; //m^3
+		if (tankType == "v")
+		{
+			contentVolume = (3.1415 * (tankRadius * tankRadius) * contentLevel);
+			return contentVolume; //m^3
+		}
+		else if (tankType == "h")
+		{
+			//using namespace extended_area_names;
+
+			quantity
+				<unit<plane_angle_dimension,degree::system>
+				> sectorAngle(2 * acos((tankRadius - tankHeight) / tankRadius)
+				* degree::degree);
+
+			auto sectorSquare(
+				(sectorAngle.value() * (tankRadius.value() * tankRadius.value()) / 2.0)
+				* square_meter);
+
+			quantity<length> triangleBase(
+				sqrt(
+				(tankRadius.value() * tankRadius.value()) -
+				((tankRadius.value() - tankHeight.value()) *
+				(tankRadius.value() - tankHeight.value())))
+				* milli * meters);
+
+			quantity<length> p(
+				(tankRadius + tankRadius + triangleBase) / 2.0);
+
+			//quantity_area_square_millimeter mm((sectorAngle.value() * (tankRadius.value() * tankRadius.value()) / 2.0)
+			//	* squared_millimeter);
+			//quantity_area_square_millimeter bfg(sqrt
+			//(p.value() *
+			//	(p.value() - tankRadius.value()) *
+			//	(p.value() - tankRadius.value()) *
+			//	(p.value() - triangleBase.value()))
+			//	* square_meters);
+			//contentVolume = (mm-bfg)* tankHeight;
+
+			quantity<millimeter_unit> triangleSquare(
+				sqrt(
+				 p.value() *
+				(p.value() - tankRadius.value()) *
+				(p.value() - tankRadius.value()) *
+				(p.value() - triangleBase.value()))
+				* square_meter);
+			contentVolume = (sectorSquare - triangleSquare) * tankHeight;
+			// alpha = 2*acos((tankRadius-tankHeight)/tankRadius)
+			// sector square = (alpha*(radius * radius)/2
+			// triangle base = sqrt((radius * radius) - ((radius - tankHeight)*(radius - tankHeight)))
+			// p = (radius+radius+base)/2
+			// triangle square = sqrt(p * (p - radius) * (p - radius) * (p - base))
+			// contentVolume = (sector_square - triangle_square) * tankHeight
+
+			return contentVolume; //m^2
+		}
+		//else
+		//{
+		//	todo: исключение о несоответсвии 
+		//}
 	}
 }
 
-namespace outernamespace
+namespace extended_mass_names
 {
 	namespace ton_system
 	{
@@ -106,11 +117,11 @@ namespace outernamespace
 
 Mass ContentMass(Volume contentVolume, double contentDensity_raw)
 {
-	using namespace outernamespace;
+	using namespace extended_mass_names;
 	using MassDensity = quantity<mass_density>;
 	using Mass = quantity<mass>;
 	using Volume = quantity<volume>;
-			
+
 	const MassDensity massDensity(contentDensity_raw * ton / (metre * metre * metre));
 	const Mass contentMass(contentVolume * massDensity);
 
@@ -126,3 +137,11 @@ void printMass(Mass contentMass)
 {
 	std::cout << "Content mass is " << contentMass.value() << std::endl;
 }
+
+
+
+
+
+
+
+

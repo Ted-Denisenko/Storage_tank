@@ -10,13 +10,11 @@
 #include <boost/units/systems/angle/degrees.hpp>
 #include <cmath>
 
-
-
 using Volume = boost::units::quantity<boost::units::si::volume>;
 using Mass = boost::units::quantity<boost::units::si::mass>;
 using Square = boost::units::quantity<boost::units::area_dimension>;
 
-Volume ContentValue(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
+Volume ContentVolume(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
 
 Mass ContentMass(Volume contentVolume, double contentDensity_raw);
 

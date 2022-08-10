@@ -47,7 +47,7 @@ int main(int argc, const char* argv[])
             std::cout << desc << '\n';
         else
         {
-            Volume volume = ContentValue(vm["type"].as<std::string>(), vm["level"].as<double>(), vm["height"].as<double>(), vm["diameter"].as<double>());
+            Volume volume = ContentVolume(vm["type"].as<std::string>(), vm["level"].as<double>(), vm["height"].as<double>(), vm["diameter"].as<double>());
             vm;
             Mass mass = ContentMass(volume, vm.at("density").as<double>());
             /*ContentMass(
