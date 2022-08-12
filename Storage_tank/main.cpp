@@ -51,7 +51,7 @@ int main(int argc, const char* argv[])
             vm;
             Mass mass = ContentMass(volume, vm.at("density").as<double>());
             /*ContentMass(
-                        ContentValue(vm["level"].as<int>(), vm["height"].as<int>(), vm["diameter"].as<int>())
+                        ContentVolume(vm["level"].as<int>(), vm["height"].as<int>(), vm["diameter"].as<int>())
                         , vm.at("density").as<double>());*/
             printVolume(volume);
             printMass(mass);

@@ -12,7 +12,6 @@
 
 using Volume = boost::units::quantity<boost::units::si::volume>;
 using Mass = boost::units::quantity<boost::units::si::mass>;
-using Square = boost::units::quantity<boost::units::area_dimension>;
 
 Volume ContentVolume(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
 
