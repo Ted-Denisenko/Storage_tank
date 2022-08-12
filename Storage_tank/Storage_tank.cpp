@@ -1,8 +1,5 @@
 #include "Storage_tank.h"
 
-using namespace boost::units;
-using namespace boost::units::si;
-
 
 Volume ContentVolume(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
 {
