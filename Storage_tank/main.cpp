@@ -55,7 +55,7 @@ int main(int argc, const char* argv[])
                         , vm.at("density").as<double>());*/
             printVolume(volume);
             printMass(mass);
-            
+
         }
     }
     catch (const error& ex)

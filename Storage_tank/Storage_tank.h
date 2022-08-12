@@ -8,7 +8,7 @@
 #include <boost/units/systems/si/io.hpp> //Storage_tank.cpp and UnitTests.cpp
 #include <boost/units/systems/si/prefixes.hpp>
 #include <boost/units/systems/angle/degrees.hpp>
-#include <cmath>
+#include <boost/units/cmath.hpp>
 
 using Volume = boost::units::quantity<boost::units::si::volume>;
 using Mass = boost::units::quantity<boost::units::si::mass>;
