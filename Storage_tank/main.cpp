@@ -13,7 +13,7 @@ int main(int argc, const char* argv[])
     options_description desc{ "Options" };
     desc.add_options()
         ("help,h", "Help screen")
-        ("tank_type,type", value<std::string>()->required()->default_value("v"), "Tank type")
+        ("tank_type,type", value<std::string>()/*->required()*/->default_value("h"), "Tank type")
         ("diameter,diam", value<double>()->required()->default_value(500), "Tank diameter")
         ("height,hght", value<double>()->required()->default_value(1000), "Tank height")
         ("level,lvl", value<double>()->required()->default_value(600), "Content level")
@@ -27,8 +27,8 @@ int main(int argc, const char* argv[])
             std::cout << desc << '\n';
         else
         {
-            
-            if (vm["type"].as<std::string>() == "h")
+            std::string foo = "h";
+            if (vm["type"].as<std::string>() == foo)
             {
                 HorizontalStorageTank h(
                     vm["diameter"].as<double>(),
