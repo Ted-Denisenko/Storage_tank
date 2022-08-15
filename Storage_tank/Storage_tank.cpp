@@ -23,6 +23,7 @@ class StorageTank
 	double contentLevel_raw;
 	double tankHeight_raw;
 	double tankDiameter_raw;
+	double contentDensity_raw;
 
 protected:
 
@@ -32,41 +33,68 @@ protected:
 	quantity<length> tankRadius;
 	Volume tankVolume;
 	Volume contentVolume;
+	quantity<mass_density> contentDensity;
+	Mass contentMass;
 
 	// функции надо сделать абстрактными для использования в других классах
 	virtual Volume ContentVolume(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
 	Mass ContentMass(Volume contentVolume, double contentDensity_raw)
 	{
 		using namespace extended_mass_names;
-		using MassDensity = quantity<mass_density>;
-		using Mass = quantity<mass>;
-		using Volume = quantity<volume>;
 
-		const MassDensity massDensity(contentDensity_raw * ton / cubic_meter);
-		const Mass contentMass(contentVolume * massDensity);
+		contentDensity = contentDensity_raw * ton / cubic_meter;
+		contentMass = contentVolume * contentDensity;
 
 		return contentMass; //tons
 	};
 
 public:
 
-	double setContentLevel(double contentLevel) { contentLevel_raw = contentLevel; }
-	double setTankHeight(double tankHeight) { tankHeight_raw = tankHeight; }
-	double setTankDiameter(double tankDiameter) { tankDiameter_raw = tankDiameter; }
+	// геттеры и сеттеры: для каких данных нужно использовать?
+	// если использовать для сырых значений, то при вызове консутруктора класса будет нужно задавать данные через сеттеры
+	// затем эти данные через конструктор помогут в инициализации буст значений
+	// сеттеры для сырых значений имеют смысл
+	// геттеры позволят узнать, какие значения были переданы в конструктор без привязки к единицам измерения (они известны заранее - мм)
+	// хотя такой функционал будет нужен только разработчику
+	// если использовать сеттеры для значений буста, то смысла в инициализации данных через конструктор я не вижу
+	// геттеры имеют право на жизнь, если необходимо проверить, правильно ли инициализировались значения
+	// но пользователь не будет делать таких проверок, они нужны разработчику
+
+	double setContentLevel_raw(double contentLevel) { contentLevel_raw = contentLevel; }
+	double setTankHeight_raw(double tankHeight) { tankHeight_raw = tankHeight; }
+	double setTankDiameter_raw(double tankDiameter) { tankDiameter_raw = tankDiameter; }
+	double setContentDensity(double contentDensity) { contentDensity_raw = contentDensity; }
+
 	const double getContentLevel_raw() { return contentLevel_raw; }
 	const double getTankHeight_raw() { return tankHeight_raw; }
 	const double getTankDiameter_raw() { return tankDiameter_raw; }
+	const double getContentDensity() { return contentDensity_raw; }
+	const Volume getContentVolume() { return contentVolume; }
+	const Mass getContentMass() { return contentMass; }
 
 	StorageTank(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
 	{
+		// TODO: найти способ избавиться от "/ 1000.0" в пользу "* milli"
+
 		contentLevel = contentLevel_raw * meters / 1000.0;
-		tankHeight = tankHeight_raw * milli * meters;
-		tankDiameter = tankDiameter_raw * milli * meters;
+		tankHeight = tankHeight_raw  * meters / 1000.0;
+		tankDiameter = tankDiameter_raw  * meters / 1000.0;
 		tankRadius = tankDiameter / 2.0;
+
 		tankVolume = 3.1415 * (tankRadius * tankRadius) * tankHeight;
 	};
 
 	~StorageTank() {}
+
+	void printVolume()
+	{
+		std::cout << "Content volume is " << this->getContentVolume().value() << std::endl;
+	}
+
+	void printMass()
+	{
+		std::cout << "Content mass is " << this->getContentMass().value() << std::endl;
+	}
 };
 
 class VerticalStorageTank : StorageTank
@@ -81,6 +109,10 @@ protected:
 		contentVolume = (3.1415 * tankRadius * tankRadius * contentLevel);
 		return contentVolume; //m^3
 	};
+
+public:
+	VerticalStorageTank();
+	~VerticalStorageTank();
 };
 
 class HorizontalStorageTank : StorageTank
@@ -119,6 +151,10 @@ protected:
 
 		return contentVolume; //m^3
 	};
+
+public:
+	HorizontalStorageTank();
+	~HorizontalStorageTank();
 };
 
 Volume ContentVolume(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
