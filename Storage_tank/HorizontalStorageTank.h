@@ -2,7 +2,8 @@
 #pragma once
 class HorizontalStorageTank : StorageTank
 {
-protected:
-	Volume ContentVolume(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw) override;
+public:
+	HorizontalStorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw);
+	Volume ContentVolume() override;
 };
 

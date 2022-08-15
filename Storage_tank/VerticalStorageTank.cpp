@@ -1,11 +1,11 @@
 #include "VerticalStorageTank.h"
 
-Volume VerticalStorageTank::ContentVolume(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
+Volume VerticalStorageTank::ContentVolume()
 {
-	if (contentLevel_raw >= tankHeight_raw)
+	if (this->getContentLevel_raw() >= this->getTankHeight_raw())
 	{
-		return (tankVolume);
+		return (this->tankVolume);
 	}
-	contentVolume = (3.1415 * tankRadius * tankRadius * contentLevel);
-	return contentVolume; //m^3
+	this->contentVolume = (3.1415 * this->tankRadius * this->tankRadius * this->contentLevel);
+	return this->contentVolume; //m^3
 }

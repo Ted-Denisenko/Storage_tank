@@ -1,39 +1,48 @@
 #include "StorageTank.h"
 
-StorageTank::StorageTank(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
+StorageTank::StorageTank()
 {
-	contentLevel = contentLevel_raw * meters /** milli*/ / 1000.0;
-	tankHeight = tankHeight_raw * meters /** milli*/ / 1000.0;
-	tankDiameter = tankDiameter_raw * meters/** milli*/ / 1000.0;
-	tankRadius = tankDiameter / 2.0;
+	this->contentLevel = 0.0 * meters /** milli*/ / 1000.0;
+	this->tankHeight = 0.0 * meters /** milli*/ / 1000.0;
+	this->tankDiameter = 0.0 * meters/** milli*/ / 1000.0;
+	this->tankRadius = 0.0 / 2.0 * meters;
+}
+
+StorageTank::StorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw)
+{
+	this->contentLevel = contentLevel_raw * meters /** milli*/ / 1000.0;
+	this->tankHeight = tankHeight_raw * meters /** milli*/ / 1000.0;
+	this->tankDiameter = tankDiameter_raw * meters/** milli*/ / 1000.0;
+	this->tankRadius = tankDiameter / 2.0;
+	this->contentDensity = contentDensity_raw * /*tons*/ kilogrammes / cubic_meters / 1000.0;
 }
 
 StorageTank::~StorageTank() 
 {
-	contentLevel.from_value(0.0);
-	tankHeight.from_value(0.0);
-	tankDiameter.from_value(0.0);
-	tankRadius.from_value(0.0);
+	this->contentLevel.from_value(0.0);
+	this->tankHeight.from_value(0.0);
+	this->tankDiameter.from_value(0.0);
+	this->tankRadius.from_value(0.0);
 }
 
-Volume StorageTank::ContentVolume(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw)
+Volume StorageTank::ContentVolume()
 {
-	if (contentLevel_raw >= tankHeight_raw)
+	if (this->getContentLevel_raw() >= this->getTankHeight_raw())
 	{
-		return (tankVolume);
+		return (this->tankVolume);
 	}
-	contentVolume = (3.1415 * tankRadius * tankRadius * contentLevel);
-	return contentVolume; //m^3
+	this->contentVolume = (3.1415 * this->tankRadius * this->tankRadius * this->contentLevel);
+	return this->contentVolume; //m^3
 };
 
-Mass StorageTank::ContentMass(Volume contentVolume, double contentDensity_raw)
+Mass StorageTank::ContentMass()
 {
 	using namespace extended_mass_names;
 
 	// TODO: найти способ избавиться от "/ 1000.0" в пользу "* milli"
 
-	contentDensity = contentDensity_raw * /*tons*/kilogrammes / cubic_meter;
-	contentMass = contentVolume * contentDensity;
+	this->contentDensity = contentDensity_raw * /*tons*/kilogrammes / cubic_meter;
+	this->contentMass = contentVolume * this->contentDensity;
 
-	return contentMass; //tons
+	return this->contentMass; //tons
 };

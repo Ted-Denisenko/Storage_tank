@@ -50,7 +50,9 @@ protected:
 	Mass contentMass;
 
 public:
-	StorageTank(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
+	StorageTank();
+	// diam, height, level, dens
+	StorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw);
 	~StorageTank();
 
 	double setContentLevel_raw(double contentLevel) { contentLevel_raw = contentLevel; }
@@ -61,12 +63,12 @@ public:
 	const double getContentLevel_raw() { return contentLevel_raw; }
 	const double getTankHeight_raw() { return tankHeight_raw; }
 	const double getTankDiameter_raw() { return tankDiameter_raw; }
-	const double getContentDensity() { return contentDensity_raw; }
+	const double getContentDensity_raw() { return contentDensity_raw; }
 	const Volume getContentVolume() { return contentVolume; }
 	const Mass getContentMass() { return contentMass; }
 
-	virtual Volume ContentVolume(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
-	Mass ContentMass(Volume contentVolume, double contentDensity_raw);
+	virtual Volume ContentVolume();
+	Mass ContentMass();
 
 	void printVolume();
 	void printMass();
