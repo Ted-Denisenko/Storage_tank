@@ -50,6 +50,9 @@ protected:
 
 public:
 
+	double setContentLevel(double contentLevel) { contentLevel_raw = contentLevel; }
+	double setTankHeight(double tankHeight) { tankHeight_raw = tankHeight; }
+	double setTankDiameter(double tankDiameter) { tankDiameter_raw = tankDiameter; }
 	const double getContentLevel_raw() { return contentLevel_raw; }
 	const double getTankHeight_raw() { return tankHeight_raw; }
 	const double getTankDiameter_raw() { return tankDiameter_raw; }
