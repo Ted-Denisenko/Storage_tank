@@ -42,7 +42,7 @@ protected:
 	{
 		using namespace extended_mass_names;
 
-		contentDensity = contentDensity_raw * ton / cubic_meter;
+		contentDensity = contentDensity_raw * tons / cubic_meter;
 		contentMass = contentVolume * contentDensity;
 
 		return contentMass; //tons
@@ -76,7 +76,7 @@ public:
 	{
 		// TODO: найти способ избавиться от "/ 1000.0" в пользу "* milli"
 
-		contentLevel = contentLevel_raw * meters / 1000.0;
+		contentLevel = contentLevel_raw * meters *milli;
 		tankHeight = tankHeight_raw  * meters / 1000.0;
 		tankDiameter = tankDiameter_raw  * meters / 1000.0;
 		tankRadius = tankDiameter / 2.0;
