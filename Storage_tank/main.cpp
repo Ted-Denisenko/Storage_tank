@@ -4,30 +4,9 @@
 
 using namespace boost::program_options;
 
-void print_current_C_locale()
-{
-    std::cout <<
-        setlocale(LC_ALL, nullptr)
-        << std::endl;
-}
-
-//региональные настройки не должны влиять на ввод и вывод программы
-/*
-*    для ввода:
-узнать локаль пользователя
-перевести текст вывода из текущей локали в подходящую для boost.options
-    для вывода:
-узнать локаль пользователя
-вывести результат в локали пользователя
-*/
 
 int main(int argc, const char* argv[])
 {
-    //setlocale(LC_ALL, "");
-    //std::cout << "LC_ALL: " << setlocale(LC_ALL, NULL) << std::endl;
-    //std::cout << "LC_CTYPE: " << setlocale(LC_CTYPE, NULL) << std::endl;
-
-    ////setlocale(LC_ALL, "");
 
     //options_description desc{ "Options" };
     //desc.add_options()

@@ -50,16 +50,8 @@ protected:
 	Mass contentMass;
 
 public:
-
-// геттеры и сеттеры: для каких данных нужно использовать?
-// если использовать для сырых значений, то при вызове консутруктора класса будет нужно задавать данные через сеттеры
-// затем эти данные через конструктор помогут в инициализации буст значений
-// сеттеры для сырых значений имеют смысл
-// геттеры позволят узнать, какие значения были переданы в конструктор без привязки к единицам измерения (они известны заранее - мм)
-// хотя такой функционал будет нужен только разработчику
-// если использовать сеттеры для значений буста, то смысла в инициализации данных через конструктор я не вижу
-// геттеры имеют право на жизнь, если необходимо проверить, правильно ли инициализировались значения
-// но пользователь не будет делать таких проверок, они нужны разработчику
+	StorageTank(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
+	~StorageTank();
 
 	double setContentLevel_raw(double contentLevel) { contentLevel_raw = contentLevel; }
 	double setTankHeight_raw(double tankHeight) { tankHeight_raw = tankHeight; }
@@ -76,19 +68,6 @@ public:
 	virtual Volume ContentVolume(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
 	Mass ContentMass(Volume contentVolume, double contentDensity_raw);
 
-	StorageTank(double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
-
-	~StorageTank();
-
 	void printVolume();
-
 	void printMass();
 };
-
-//Volume ContentVolume(std::string tankType, double contentLevel_raw, double tankHeight_raw, double tankDiameter_raw);
-//
-//Mass ContentMass(Volume contentVolume, double contentDensity_raw);
-//
-//void printVolume(Volume contentVolume);
-//
-//void printMass(Mass contentMass);
