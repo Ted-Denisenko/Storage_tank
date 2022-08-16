@@ -59,6 +59,8 @@ public:
 	double setTankDiameter_raw(double tankDiameter) { tankDiameter_raw = tankDiameter; }
 	double setContentDensity_raw(double contentDensity) { contentDensity_raw = contentDensity; }
 
+	quantity<length> setContentLevel(double contentLevel_raw) { contentLevel.from_value(contentLevel_raw); }
+
 	const double getContentLevel_raw() { return contentLevel_raw; }
 	const double getTankHeight_raw() { return tankHeight_raw; }
 	const double getTankDiameter_raw() { return tankDiameter_raw; }
