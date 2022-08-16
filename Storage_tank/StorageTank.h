@@ -34,10 +34,10 @@ using Mass = quantity<mass>;
 
 class StorageTank
 {
-	double contentLevel_raw;
-	double tankHeight_raw;
-	double tankDiameter_raw;
-	double contentDensity_raw;
+	double contentLevel_raw{ 0 };
+	double tankHeight_raw{ 0 };
+	double tankDiameter_raw{ 0 };
+	double contentDensity_raw{ 0 };
 
 protected:
 	quantity<length> contentLevel;
@@ -51,14 +51,13 @@ protected:
 
 public:
 	StorageTank();
-	// diam, height, level, dens
 	StorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw);
 	~StorageTank();
 
 	double setContentLevel_raw(double contentLevel) { contentLevel_raw = contentLevel; }
 	double setTankHeight_raw(double tankHeight) { tankHeight_raw = tankHeight; }
 	double setTankDiameter_raw(double tankDiameter) { tankDiameter_raw = tankDiameter; }
-	double setContentDensity(double contentDensity) { contentDensity_raw = contentDensity; }
+	double setContentDensity_raw(double contentDensity) { contentDensity_raw = contentDensity; }
 
 	const double getContentLevel_raw() { return contentLevel_raw; }
 	const double getTankHeight_raw() { return tankHeight_raw; }
