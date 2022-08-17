@@ -8,6 +8,7 @@
 #include <boost/units/systems/si/io.hpp> //StorageTank.cpp and UnitTests.cpp
 #include <boost/units/systems/si/prefixes.hpp>
 #include <boost/units/systems/angle/degrees.hpp>
+#include <boost/math/constants/constants.hpp>
 #include <boost/units/cmath.hpp>
 
 using namespace boost::units;
@@ -58,8 +59,6 @@ public:
 	double setTankHeight_raw(double tankHeight) { tankHeight_raw = tankHeight; }
 	double setTankDiameter_raw(double tankDiameter) { tankDiameter_raw = tankDiameter; }
 	double setContentDensity_raw(double contentDensity) { contentDensity_raw = contentDensity; }
-
-	quantity<length> setContentLevel(double contentLevel_raw) { contentLevel.from_value(contentLevel_raw); }
 
 	const double getContentLevel_raw() { return contentLevel_raw; }
 	const double getTankHeight_raw() { return tankHeight_raw; }
