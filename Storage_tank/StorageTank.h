@@ -32,10 +32,6 @@ using Mass = boost::units::quantity<boost::units::si::mass>;
 
 class StorageTank
 {
-	double contentLevel_raw{ 0 };
-	double tankHeight_raw{ 0 };
-	double tankDiameter_raw{ 0 };
-	double contentDensity_raw{ 0 };
 
 protected:
 	boost::units::quantity<boost::units::si::length> contentLevel;
@@ -50,21 +46,10 @@ protected:
 public:
 	StorageTank();
 	StorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw);
-	~StorageTank();
+	~StorageTank() {};
 
-	double setContentLevel_raw(double contentLevel) { contentLevel_raw = contentLevel; }
-	double setTankHeight_raw(double tankHeight) { tankHeight_raw = tankHeight; }
-	double setTankDiameter_raw(double tankDiameter) { tankDiameter_raw = tankDiameter; }
-	double setContentDensity_raw(double contentDensity) { contentDensity_raw = contentDensity; }
 
-	const double getContentLevel_raw() { return contentLevel_raw; }
-	const double getTankHeight_raw() { return tankHeight_raw; }
-	const double getTankDiameter_raw() { return tankDiameter_raw; }
-	const double getContentDensity_raw() { return contentDensity_raw; }
-	const Volume getContentVolume() { return contentVolume; }
-	const Mass getContentMass() { return contentMass; }
-
-	virtual Volume ContentVolume();
+	virtual Volume ContentVolume() = 0;
 	Mass ContentMass();
 
 	void printVolume();
