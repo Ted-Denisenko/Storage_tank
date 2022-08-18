@@ -11,7 +11,6 @@
 #include <boost/math/constants/constants.hpp>
 #include <boost/units/cmath.hpp>
 
-
 namespace extended_mass_names
 {
 	namespace ton_system

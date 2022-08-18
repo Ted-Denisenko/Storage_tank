@@ -19,7 +19,7 @@ Volume HorizontalStorageTank::ContentVolume()
 	if (this->contentLevel > this->tankRadius)
 	{
 		quantity<area> circleSquare(
-			3.14159265359 * tankRadius * tankRadius); //mm sqaured
+			boost::math::constants::pi<double>() * tankRadius * tankRadius); //mm sqaured
 
 		quantity<plane_angle> sectorAngle(
 			2.0 * acos((this->tankRadius - (this->tankDiameter - this->contentLevel)) / this->tankRadius));

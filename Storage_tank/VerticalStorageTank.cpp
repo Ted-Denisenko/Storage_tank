@@ -15,7 +15,7 @@ Volume VerticalStorageTank::ContentVolume()
 	{
 		return (this->tankVolume);
 	}
-	this->contentVolume = (3.14159265359 * this->tankRadius * this->tankRadius * this->contentLevel);
+	this->contentVolume = (boost::math::constants::pi<double>() * this->tankRadius * this->tankRadius * this->contentLevel);
 	return this->contentVolume; //m^3
 }
 
