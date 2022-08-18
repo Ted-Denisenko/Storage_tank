@@ -1,5 +1,8 @@
 #include "StorageTank.h"
 
+using namespace boost::units;
+using namespace boost::units::si;
+
 StorageTank::StorageTank()
 	:tankDiameter(0.0 * meters* milli),
 	tankHeight(0.0 * meters* milli),

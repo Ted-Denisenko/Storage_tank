@@ -5,6 +5,8 @@
 
 
 using namespace boost::program_options;
+using namespace boost::units;
+using namespace boost::units::si;
 
 
 int main(int argc, const char* argv[])

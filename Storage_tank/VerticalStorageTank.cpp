@@ -1,5 +1,8 @@
 #include "VerticalStorageTank.h"
 
+using namespace boost::units;
+using namespace boost::units::si;
+
 VerticalStorageTank::VerticalStorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw)
 	:StorageTank(tankDiameter_raw, tankHeight_raw, contentLevel_raw, contentDensity_raw)
 {
@@ -8,11 +11,11 @@ VerticalStorageTank::VerticalStorageTank(double tankDiameter_raw, double tankHei
 
 Volume VerticalStorageTank::ContentVolume()
 {
-	if (this->getContentLevel_raw() >= this->getTankHeight_raw())
+	if (this->contentLevel >= this->tankDiameter)
 	{
 		return (this->tankVolume);
 	}
-	this->contentVolume = (3.1415 * this->tankRadius * this->tankRadius * this->contentLevel);
+	this->contentVolume = (3.14159265359 * this->tankRadius * this->tankRadius * this->contentLevel);
 	return this->contentVolume; //m^3
 }
 
