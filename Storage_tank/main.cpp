@@ -24,19 +24,28 @@ int main(int argc, const char* argv[])
         variables_map vm;
         parse_command_line(argc, argv, desc);
         store(parse_command_line(argc, argv, desc), vm);
-        if (vm.count("help"))
+        auto tankType = vm["tank_type"].as<std::string>();
+
+        auto diam = vm["diameter"].as<double>();
+        auto height = vm["height"].as<double>();
+        auto level = vm["level"].as<int>();
+        auto dens = vm["density"].as<double>();
+
+        if (vm.count("help") || diam < 0.0 || height < 0.0 || level < 0.0 || dens < 0.0)
         {
             std::cout << desc << '\n';
+            std::cout << "Every value must be positive" << '\n';
             return 0;
         }
         StorageTank* bptr;
-        if (vm["tank_type"].as<std::string>() == "h")
+
+        if (tankType == "h")
         {
             HorizontalStorageTank h(
-                vm["diameter"].as<double>(),
-                vm["height"].as<double>(),
-                vm["level"].as<int>(),
-                vm["density"].as<double>());
+                diam,
+                height,
+                level,
+                dens);
 
             bptr = &h;
 
@@ -45,13 +54,13 @@ int main(int argc, const char* argv[])
             h.printVolume();
             h.printMass();
         }
-        else if (vm["tank_type"].as<std::string>() == "v")
+        else if (tankType == "v")
         {
             VerticalStorageTank v(
-                vm["diameter"].as<double>(),
-                vm["height"].as<double>(),
-                vm["level"].as<int>(),
-                vm["density"].as<double>());
+                diam,
+                height,
+                level,
+                dens);
 
             bptr = &v;
 
