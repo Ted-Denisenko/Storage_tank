@@ -8,24 +8,37 @@ using namespace boost::units;
 using namespace boost::units::si;
 
 
+void doMaths(StorageTank* bptr)
+{
+    bptr->ContentVolume();
+    bptr->ContentMass();
+}
+
+template < typename T >
+void doPrint(T& Tank)
+{
+    Tank.printVolume();
+    Tank.printMass();
+}
+
 int main(int argc, const char* argv[])
 {
 
     options_description desc{ "Options" };
     desc.add_options()
         ("help,h", "Help screen")
-        ("tank_type,type",  value<std::string>()->required()->default_value("h"), "Tank type")
-        ("diameter,diam",   value<double>()->required()->default_value(500), "Tank diameter")
-        ("height,hght",     value<double>()->required()->default_value(1000), "Tank height")
-        ("level,lvl",       value<int>()->required()->default_value(600), "Content level")
-        ("density, dens",   value<double>()->required()->default_value(1040), "Content density");
+        ("tank_type,type", value<std::string>()->required()->default_value("h"), "Tank type")
+        ("diameter,diam",  value<double>()->required()->default_value(500), "Tank diameter")
+        ("height,hght",    value<double>()->required()->default_value(1000), "Tank height")
+        ("level,lvl",      value<int>()->required()->default_value(600), "Content level")
+        ("density, dens",  value<double>()->required()->default_value(1040), "Content density");
     try
     {
         variables_map vm;
         parse_command_line(argc, argv, desc);
         store(parse_command_line(argc, argv, desc), vm);
-        auto tankType = vm["tank_type"].as<std::string>();
 
+        auto tankType = vm["tank_type"].as<std::string>();
         auto diam = vm["diameter"].as<double>();
         auto height = vm["height"].as<double>();
         auto level = vm["level"].as<int>();
@@ -34,11 +47,11 @@ int main(int argc, const char* argv[])
         if (vm.count("help") || diam < 0.0 || height < 0.0 || level < 0.0 || dens < 0.0)
         {
             std::cout << desc << '\n';
-            std::cout << "Every value must be positive" << '\n';
+            std::cout << "**Every value must be positive**" << '\n';
             return 0;
         }
-        StorageTank* bptr;
 
+        StorageTank* bptr;
         if (tankType == "h")
         {
             HorizontalStorageTank h(
@@ -49,10 +62,8 @@ int main(int argc, const char* argv[])
 
             bptr = &h;
 
-            bptr->ContentVolume();
-            bptr->ContentMass();
-            h.printVolume();
-            h.printMass();
+            doMaths(bptr);
+            doPrint(h);
         }
         else if (tankType == "v")
         {
@@ -64,10 +75,8 @@ int main(int argc, const char* argv[])
 
             bptr = &v;
 
-            bptr->ContentVolume();
-            bptr->ContentMass();
-            v.printVolume();
-            v.printMass();
+            doMaths(bptr);
+            doPrint(v);
         }
         else
         {
