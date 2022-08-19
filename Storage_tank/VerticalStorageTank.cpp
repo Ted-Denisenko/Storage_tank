@@ -25,12 +25,12 @@ Mass VerticalStorageTank::ContentMass()
 	return this->contentMass;
 }
 
-void VerticalStorageTank::printVolume()
-{
-	StorageTank::printVolume();
-}
-
-void VerticalStorageTank::printMass()
-{
-	StorageTank::printMass();
-}
+//void VerticalStorageTank::printVolume()
+//{
+//	StorageTank::printVolume();
+//}
+//
+//void VerticalStorageTank::printMass()
+//{
+//	StorageTank::printMass();
+//}

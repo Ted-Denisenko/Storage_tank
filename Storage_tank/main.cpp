@@ -68,6 +68,8 @@ int main(int argc, const char* argv[])
             bptr->ContentMass();
             v.printVolume();
             v.printMass();
+
+            
         }
         else
         {

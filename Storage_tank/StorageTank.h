@@ -52,6 +52,8 @@ public:
 	virtual Volume ContentVolume() = 0;
 	Mass ContentMass();
 
+	void setLevel(double newLevel);
+
 	void printVolume();
 	void printMass();
 };

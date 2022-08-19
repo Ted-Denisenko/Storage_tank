@@ -80,12 +80,12 @@ Mass HorizontalStorageTank::ContentMass()
 	return this->contentMass;
 }
 
-void HorizontalStorageTank::printVolume()
-{
-	StorageTank::printVolume();
-}
-
-void HorizontalStorageTank::printMass()
-{
-	StorageTank::printMass();
-}
+//void HorizontalStorageTank::printVolume()
+//{
+//	StorageTank::printVolume();
+//}
+//
+//void HorizontalStorageTank::printMass()
+//{
+//	StorageTank::printMass();
+//}

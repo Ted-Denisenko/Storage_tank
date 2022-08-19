@@ -19,7 +19,14 @@ Mass StorageTank::ContentMass()
 	return this->contentMass; //tons
 };
 
+void StorageTank::setLevel(double newLevel)
+{
+	quantity<length> temp(newLevel * milli * meters);
+	this->contentLevel = temp;
+}
+
 // todo: избавиться от взаимодействия с пользователем
+
 void StorageTank::printVolume()
 {
 	std::cout << this->contentVolume << std::endl;
