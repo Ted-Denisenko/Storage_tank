@@ -10,7 +10,6 @@ using namespace boost::units::si;
 
 int main(int argc, const char* argv[])
 {
-
     options_description desc{ "Options" };
     desc.add_options()
         ("help,h", "Help screen")
@@ -24,8 +23,8 @@ int main(int argc, const char* argv[])
         variables_map vm;
         parse_command_line(argc, argv, desc);
         store(parse_command_line(argc, argv, desc), vm);
-        auto tankType = vm["tank_type"].as<std::string>();
 
+        auto tankType = vm["tank_type"].as<std::string>();
         auto diam = vm["diameter"].as<double>();
         auto height = vm["height"].as<double>();
         auto level = vm["level"].as<int>();
@@ -48,7 +47,6 @@ int main(int argc, const char* argv[])
                 dens);
 
             bptr = &h;
-
             bptr->ContentVolume();
             bptr->ContentMass();
             h.printVolume();
@@ -63,13 +61,10 @@ int main(int argc, const char* argv[])
                 dens);
 
             bptr = &v;
-
             bptr->ContentVolume();
             bptr->ContentMass();
             v.printVolume();
             v.printMass();
-
-            
         }
         else
         {

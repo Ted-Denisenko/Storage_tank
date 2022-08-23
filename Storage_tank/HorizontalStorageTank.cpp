@@ -79,13 +79,3 @@ Mass HorizontalStorageTank::ContentMass()
 	this->contentMass = StorageTank::ContentMass();
 	return this->contentMass;
 }
-
-//void HorizontalStorageTank::printVolume()
-//{
-//	StorageTank::printVolume();
-//}
-//
-//void HorizontalStorageTank::printMass()
-//{
-//	StorageTank::printMass();
-//}

@@ -24,13 +24,3 @@ Mass VerticalStorageTank::ContentMass()
 	this->contentMass = StorageTank::ContentMass();
 	return this->contentMass;
 }
-
-//void VerticalStorageTank::printVolume()
-//{
-//	StorageTank::printVolume();
-//}
-//
-//void VerticalStorageTank::printMass()
-//{
-//	StorageTank::printMass();
-//}
