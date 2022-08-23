@@ -45,7 +45,10 @@ protected:
 
 public:
 	StorageTank();
-	StorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw);
+	StorageTank(boost::units::quantity<boost::units::si::length> param_tankDiameter, 
+		boost::units::quantity<boost::units::si::length> param_tankHeight,
+		boost::units::quantity<boost::units::si::length> param_contentLevel,
+		boost::units::quantity<boost::units::si::mass_density> param_contentDensity);
 	const Volume getVolume() { return this->contentVolume; }
 	const Mass getMass() { return this->contentMass; }
 	~StorageTank() {};
