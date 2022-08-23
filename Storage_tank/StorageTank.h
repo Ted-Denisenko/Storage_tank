@@ -46,14 +46,13 @@ protected:
 public:
 	StorageTank();
 	StorageTank(double tankDiameter_raw, double tankHeight_raw, double contentLevel_raw, double contentDensity_raw);
+	const Volume getVolume() { return this->contentVolume; }
+	const Mass getMass() { return this->contentMass; }
 	~StorageTank() {};
 
 
 	virtual Volume ContentVolume() = 0;
 	Mass ContentMass();
 
-	void setLevel(double newLevel);
-
-	void printVolume();
-	void printMass();
+	void setLevel(int newLevel);
 };

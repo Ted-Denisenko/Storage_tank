@@ -49,8 +49,8 @@ int main(int argc, const char* argv[])
             bptr = &h;
             bptr->ContentVolume();
             bptr->ContentMass();
-            h.printVolume();
-            h.printMass();
+            std::cout << bptr->getVolume() << std::endl; 
+            std::cout << bptr->getMass() << std::endl;
         }
         else if (tankType == "v")
         {
@@ -63,8 +63,8 @@ int main(int argc, const char* argv[])
             bptr = &v;
             bptr->ContentVolume();
             bptr->ContentMass();
-            v.printVolume();
-            v.printMass();
+            std::cout << bptr->getVolume() << std::endl;
+            std::cout << bptr->getMass() << std::endl;
         }
         else
         {
