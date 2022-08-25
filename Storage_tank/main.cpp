@@ -20,37 +20,39 @@ void doPrint(T& Tank)
     Tank.printMass();
 }
 
-template <class C>
-C createClassElem(std::string tankType,
-    quantity<length> param_tankDiameter,
-    quantity<length> param_tankHeight,
-    quantity<length> param_contentLevel,
-    quantity<mass_density> param_contentDensity)
-{
-    if (tankType == "h")
-    {
-        HorizontalStorageTank h(
-            param_tankDiameter,
-            param_tankHeight,
-            param_contentLevel,
-            param_contentDensity);
-        return h;
-    }
-    else if (tankType == "v")
-    {
-        VerticalStorageTank v(
-            param_tankDiameter,
-            param_tankHeight,
-            param_contentLevel,
-            param_contentDensity);
-        return v;
-    }
-    else
-    {
-        std::cout << "invalid argument for tank type" << std::endl;
-        return -1;
-    }
-}
+//template <class C>
+//C createTank(std::string tankType,
+//    quantity<length,double> param_tankDiameter,
+//    quantity<length, double> param_tankHeight,
+//    quantity<length, double> param_contentLevel,
+//    quantity<mass_density, double> param_contentDensity)
+//{
+//    if (tankType == "h")
+//    {
+//        HorizontalStorageTank h(
+//            param_tankDiameter,
+//            param_tankHeight,
+//            param_contentLevel,
+//            param_contentDensity);
+//        return h;
+//    }
+//    else if (tankType == "v")
+//    {
+//        VerticalStorageTank v(
+//            param_tankDiameter,
+//            param_tankHeight,
+//            param_contentLevel,
+//            param_contentDensity);
+//        return v;
+//    }
+//    else
+//    {
+//        // TODO: здесь нужно выкидывать исключение (см. тикет №69)
+//
+//        std::cout << "invalid argument for tank type" << std::endl;
+//        return -1;
+//    }
+//}
 
 int main(int argc, const char* argv[])
 {
@@ -87,39 +89,42 @@ int main(int argc, const char* argv[])
         boost::units::quantity<boost::units::si::length> contentLevel(level * milli * meters);
         boost::units::quantity<boost::units::si::mass_density> contentDensity(dens * kilogrammes_per_cubic_metre);
 
-        //if (tankType == "h")
-        //{
-        //    HorizontalStorageTank h(
-        //        diam,
-        //        height,
-        //        level,
-        //        dens);
+        //bptr = &(createTank(tankType,tankDiameter,tankHeight, contentLevel, contentDensity));
 
-        //    bptr = &h;
-        //    bptr->ContentVolume();
-        //    bptr->ContentMass();
-        //    std::cout << bptr->getVolume() << std::endl; 
-        //    std::cout << bptr->getMass() << std::endl;
-        //}
-        //else if (tankType == "v")
-        //{
-        //    VerticalStorageTank v(
-        //        diam,
-        //        height,
-        //        level,
-        //        dens);
 
-        //    bptr = &v;
-        //    bptr->ContentVolume();
-        //    bptr->ContentMass();
-        //    std::cout << bptr->getVolume() << std::endl;
-        //    std::cout << bptr->getMass() << std::endl;
-        //}
-        //else
-        //{
-        //    std::cout << "invalid argument for tank type" << std::endl;
-        //    return -1;
-        //}
+        if (tankType == "h")
+        {
+            HorizontalStorageTank h(
+                tankDiameter,
+                tankHeight,
+                contentLevel,
+                contentDensity);
+
+            bptr = &h;
+            bptr->ContentVolume();
+            bptr->ContentMass();
+            std::cout << bptr->getVolume() << std::endl; 
+            std::cout << bptr->getMass() << std::endl;
+        }
+        else if (tankType == "v")
+        {
+            VerticalStorageTank v(
+                tankDiameter,
+                tankHeight,
+                contentLevel,
+                contentDensity);
+
+            bptr = &v;
+            bptr->ContentVolume();
+            bptr->ContentMass();
+            std::cout << bptr->getVolume() << std::endl;
+            std::cout << bptr->getMass() << std::endl;
+        }
+        else
+        {
+            std::cout << "invalid argument for tank type" << std::endl;
+            return -1;
+        }
         
     }
     catch (const error& ex)
