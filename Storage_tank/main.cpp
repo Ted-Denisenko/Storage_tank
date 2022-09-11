@@ -2,10 +2,13 @@
 #include "VerticalStorageTank.h"
 #include "HorizontalStorageTank.h"
 #include <boost/program_options.hpp>
+#include <boost/leaf.hpp>
 
 using namespace boost::program_options;
 using namespace boost::units;
 using namespace boost::units::si;
+
+enum class errors { invalidTankType = -1, invalidTankParameters = -2 };
 
 void doMaths(StorageTank* bptr)
 {
@@ -18,6 +21,33 @@ void doPrint(T& Tank)
 {
     Tank.printVolume();
     Tank.printMass();
+}
+
+boost::leaf::result<int> check_tankType(std::string tankType)
+{
+    if (tankType != "v" && tankType != "h")
+        return boost::leaf::new_error(errors::invalidTankType);
+    return 0;
+}
+
+boost::leaf::result<int> check_tankParameters(double diam, double height, int level, double dens)
+{
+    if (diam < 0.0 || height < 0.0 || level < 0.0 || dens < 0.0)
+        return boost::leaf::new_error(errors::invalidTankParameters);
+    return 0;
+}
+
+template <typename T>
+boost::leaf::result<T> CheckInput(std::string tankType, double diam, double height, int level, double dens)
+{
+    boost::leaf::result<T> checkTypeResult = check_tankType(tankType);
+    if (!checkTypeResult)
+        return checkTypeResult.error();
+    boost::leaf::result<T> checkParamsResult = check_tankParameters(diam, height, level, dens);
+    if (!checkParamsResult)
+        return checkParamsResult.error();
+
+    return 0;
 }
 
 //template <class C>
@@ -76,21 +106,24 @@ int main(int argc, const char* argv[])
         auto level = vm["level"].as<int>();
         auto dens = vm["density"].as<double>();
 
-        if (vm.count("help") || diam < 0.0 || height < 0.0 || level < 0.0 || dens < 0.0)
+        // TODO: #69 - не допускать создани€ вырожденных резервуаров (невозможный параметр)
+        // проверка ввода: при невозможном параметре определит ошибку и вернет -1
+        if(!CheckInput<int>(tankType, diam, height, level, dens))
+            return -1;        
+
+        if (vm.count("help"))
         {
             std::cout << desc << '\n';
-            std::cout << "**Every value must be positive**" << '\n';
             return 0;
         }
         StorageTank* bptr;
 
-        boost::units::quantity<boost::units::si::length> tankDiameter(diam * milli * meters);
-        boost::units::quantity<boost::units::si::length> tankHeight(height * milli * meters);
-        boost::units::quantity<boost::units::si::length> contentLevel(level * milli * meters);
-        boost::units::quantity<boost::units::si::mass_density> contentDensity(dens * kilogrammes_per_cubic_metre);
+        quantity<length> tankDiameter(diam * milli * meters);
+        quantity<length> tankHeight(height * milli * meters);
+        quantity<length> contentLevel(level * milli * meters);
+        quantity<mass_density> contentDensity(dens * kilogrammes_per_cubic_metre);
 
         //bptr = &(createTank(tankType,tankDiameter,tankHeight, contentLevel, contentDensity));
-
 
         if (tankType == "h")
         {
@@ -122,6 +155,7 @@ int main(int argc, const char* argv[])
         }
         else
         {
+            // TODO: #69 - не допускать создани€ вырожденных резервуаров (несуществующий тип резервуара)
             std::cout << "invalid argument for tank type" << std::endl;
             return -1;
         }
