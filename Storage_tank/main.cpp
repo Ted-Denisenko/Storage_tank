@@ -3,6 +3,7 @@
 #include "HorizontalStorageTank.h"
 #include <boost/program_options.hpp>
 #include <boost/leaf.hpp>
+#include <boost/leaf/exception.hpp>
 
 using namespace boost::program_options;
 using namespace boost::units;
@@ -26,14 +27,16 @@ void doPrint(T& Tank)
 boost::leaf::result<int> check_tankType(std::string tankType)
 {
     if (tankType != "v" && tankType != "h")
-        return boost::leaf::new_error(errors::invalidTankType);
+        /*return boost::leaf::new_error(errors::invalidTankType);*/
+        BOOST_LEAF_THROW_EXCEPTION(errors::invalidTankType);
     return 0;
 }
 
 boost::leaf::result<int> check_tankParameters(double diam, double height, int level, double dens)
 {
     if (diam < 0.0 || height < 0.0 || level < 0.0 || dens < 0.0)
-        return boost::leaf::new_error(errors::invalidTankParameters);
+        /*return boost::leaf::new_error(errors::invalidTankParameters);*/
+        BOOST_LEAF_THROW_EXCEPTION(errors::invalidTankParameters);
     return 0;
 }
 
